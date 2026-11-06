@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cante Pido Egresados: propuesta de sitio web</title>
+<meta name="description" content="Propuesta de rediseño web para Cante Pido Egresados: camperas y buzos a medida para Jardín, Primaria y Secundaria. Trabajo académico de Marketing Digital.">
+<style>
+:root{
+  --ink:#14102a; --blue:#6d35f0; --yellow:#ffd23f; --paper:#f7f3ff; --muted:#5a5670; --line:#ddd3f7; --pink:#ff4f9a; --orange:#ff9a3d;
+  --slab:Rockwell,"Rockwell Nova","Roboto Slab",Cambria,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:#fff;line-height:1.55;font-size:17px}
+img,svg{max-width:100%}
+a{color:var(--blue)}
+.wrap{width:min(1120px,100% - 32px);margin-inline:auto}
+h1,h2,h3{font-family:var(--slab);line-height:1.1;margin:0}
+h2{font-size:clamp(1.7rem,4.2vw,2.6rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.25rem;font-weight:700}
+p{margin:0 0 1em}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+.aviso{background:var(--ink);color:var(--yellow);font-size:.85rem;text-align:center;padding:8px 16px}
+
+header.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:2px solid var(--ink)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.marca{font-family:var(--slab);font-weight:800;font-size:1.35rem;color:var(--ink);text-decoration:none;display:flex;flex-direction:column;line-height:1}
+.marca small{font-family:var(--sans);font-weight:600;font-size:.7rem;color:var(--blue);margin-top:3px}
+.menu-btn{font:inherit;font-weight:700;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
+nav.principal{display:none;position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:2px solid var(--ink);padding:8px 16px 16px}
+nav.principal[data-open="true"]{display:block}
+nav.principal a{display:block;padding:12px 4px;color:var(--ink);text-decoration:none;font-weight:600;border-bottom:1px solid var(--line)}
+nav.principal a.cta{margin-top:12px;text-align:center;background:var(--blue);color:#fff;border-radius:999px;border:0;padding:14px}
+@media(min-width:900px){
+  .menu-btn{display:none}
+  nav.principal{display:flex;position:static;border:0;padding:0;align-items:center;gap:22px;background:none}
+  nav.principal a{border:0;padding:6px 0}
+  nav.principal a:hover{color:var(--blue)}
+  nav.principal a.cta{margin:0;padding:10px 20px}
+}
+
+.btn{display:inline-block;font:inherit;font-weight:700;text-decoration:none;cursor:pointer;border:2px solid var(--ink);border-radius:999px;padding:13px 24px;background:var(--yellow);color:var(--ink)}
+.btn:hover{background:#ffe27a}
+.btn.azul{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.azul:hover{background:#2430b8}
+.btn.claro{background:#fff}
+
+/* HERO */
+.hero{background:var(--paper);padding:36px 0 64px;border-bottom:2px solid var(--ink)}
+.hero .wrap{display:grid;gap:36px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.3rem);font-weight:800;letter-spacing:-.02em}
+.hero .lead{font-size:1.15rem;max-width:34em;margin:20px 0 28px;color:#2a3050}
+.hero .acciones{display:flex;flex-wrap:wrap;gap:12px}
+.hero .datos{list-style:none;padding:0;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--muted);font-size:.95rem}
+.hero .datos li::before{content:"";display:inline-block;width:8px;height:8px;background:var(--yellow);border:2px solid var(--ink);border-radius:50%;margin-right:8px}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.05fr .95fr;align-items:center;gap:56px}}
+
+.config{background:#fff;border:2px solid var(--ink);border-radius:26px;box-shadow:8px 8px 0 var(--yellow);padding:20px}
+.config .vista{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.config .vista strong{font-family:var(--slab);font-size:1.05rem}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg button{font:inherit;font-size:.9rem;font-weight:600;border:0;background:#fff;padding:7px 16px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+#jacket{display:block;width:100%;max-height:360px;margin:6px auto}
+#jacket path,#jacket rect{transition:fill .35s ease}
+.campos{display:grid;gap:14px;margin-top:8px}
+.campos label,.f label{font-weight:600;font-size:.95rem;display:block;margin-bottom:6px}
+.campos .dos{display:grid;grid-template-columns:1fr 110px;gap:12px}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:2px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.sw{border:2px solid var(--ink);border-radius:999px;background:#fff;padding:4px;cursor:pointer;display:flex}
+.sw span{width:22px;height:22px;display:block}
+.sw span:first-child{border-radius:999px 0 0 999px}
+.sw span:last-child{border-radius:0 999px 999px 0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--yellow),0 0 0 5px var(--ink)}
+.nota{font-size:.85rem;color:var(--muted);margin:12px 0 0}
+
+/* SECCIONES */
+section.bloque{padding:68px 0}
+.bloque .intro{max-width:40em;margin:12px 0 32px;color:var(--muted)}
+
+.niveles{display:grid;gap:18px}
+@media(min-width:760px){.niveles{grid-template-columns:repeat(3,1fr)}}
+.parche{border-radius:22px;padding:28px 24px 24px;display:flex;flex-direction:column;gap:12px;outline:2px dashed currentColor;outline-offset:-10px;min-height:230px}
+.parche p{margin:0;opacity:.92}
+.parche .btn{margin-top:auto;align-self:flex-start}
+.parche.jardin{background:var(--yellow);color:var(--ink)}
+.parche.primaria{background:var(--blue);color:#fff}
+.parche.secundaria{background:var(--ink);color:#fff}
+.parche.primaria .btn,.parche.secundaria .btn{background:#fff;border-color:#fff;color:var(--ink)}
+.parche.jardin .btn{background:var(--ink);color:#fff}
+
+.dosCol{display:grid;gap:40px}
+@media(min-width:960px){.dosCol{grid-template-columns:1fr 1fr;gap:56px;align-items:start}}
+ol.pasos{list-style:none;counter-reset:p;margin:0;padding:0;display:grid;gap:18px}
+ol.pasos li{counter-increment:p;display:grid;grid-template-columns:44px 1fr;gap:14px}
+ol.pasos li::before{content:counter(p);width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--yellow);font-family:var(--slab);font-weight:800;display:grid;place-items:center;font-size:1.15rem}
+ol.pasos strong{display:block;font-family:var(--slab);font-size:1.1rem}
+ol.pasos span{color:var(--muted)}
+
+.sim{background:var(--paper);border:2px dashed var(--blue);border-radius:22px;padding:24px}
+.sim h3{margin-bottom:6px}
+.sim .grid2{display:grid;gap:14px;margin:16px 0}
+@media(min-width:520px){.sim .grid2{grid-template-columns:1fr 1fr}}
+.sim label{font-weight:600;font-size:.95rem;display:block;margin-bottom:6px}
+.sim label.check{display:flex;margin:0}
+.check{display:flex;gap:10px;align-items:center;font-weight:600}
+.check input{width:22px;height:22px;accent-color:var(--blue)}
+.resultado{background:var(--ink);color:#fff;border-radius:16px;padding:18px 20px;margin-top:14px}
+.resultado .big{font-family:var(--slab);font-size:2rem;font-weight:800;color:var(--yellow);line-height:1.1}
+.resultado p{margin:4px 0 0;font-size:.95rem}
+
+.seguir{background:var(--paper);border-block:2px solid var(--ink)}
+ol.estado{list-style:none;margin:20px 0 22px;padding:0;display:grid;gap:0}
+ol.estado li{position:relative;padding:0 0 22px 44px;color:var(--muted)}
+ol.estado li::before{content:"";position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;border:2px solid var(--ink);background:#fff}
+ol.estado li::after{content:"";position:absolute;left:12px;top:28px;bottom:2px;width:2px;background:var(--line)}
+ol.estado li:last-child::after{display:none}
+ol.estado li.hecho{color:var(--ink)}
+ol.estado li.hecho::before{background:var(--yellow);border-color:var(--ink)}
+ol.estado li.hecho::after{background:var(--ink)}
+ol.estado li.actual{color:var(--ink);font-weight:700}
+ol.estado li.actual::before{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 4px #fff,0 0 0 6px var(--blue)}
+.cod{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.cod div{flex:1 1 200px}
+.cod label{font-weight:600;font-size:.95rem;display:block;margin-bottom:6px}
+
+.valores{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+.valores li{border-left:6px solid var(--yellow);padding-left:16px}
+.valores strong{font-family:var(--slab);display:block;font-size:1.1rem}
+.abuelos{background:var(--yellow);border-block:2px solid var(--ink);padding:48px 0}
+.abuelos .wrap{display:grid;gap:18px;align-items:center}
+@media(min-width:800px){.abuelos .wrap{grid-template-columns:1fr auto;gap:40px}}
+.abuelos p{margin:8px 0 0;max-width:36em}
+.abuelos .btn{background:var(--ink);color:#fff}
+.testi{border:2px dashed var(--line);border-radius:18px;padding:22px;margin-top:28px;color:var(--muted)}
+
+details{border-bottom:2px solid var(--line)}
+details:first-of-type{border-top:2px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:18px 36px 18px 0;font-weight:700;font-size:1.05rem;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--slab);font-size:1.6rem;color:var(--blue)}
+details[open] summary::after{content:"−"}
+details .resp{padding:0 0 18px;color:#2a3050;max-width:46em}
+
+.pres{background:var(--ink);color:#fff}
+.pres h2{color:#fff}
+.pres .intro{color:#c9cdea}
+.f{display:grid;gap:16px}
+@media(min-width:640px){.f{grid-template-columns:1fr 1fr}.f .full{grid-column:1/-1}}
+.f input,.f select,.f textarea{border-color:#fff}
+.f label{color:#fff}
+.ok{background:var(--yellow);color:var(--ink);border-radius:14px;padding:16px 18px;font-weight:600}
+[hidden]{display:none!important}
+
+footer{background:#0b0f20;color:#c9cdea;padding:34px 0;font-size:.95rem}
+footer .wrap{display:grid;gap:10px}
+footer strong{font-family:var(--slab);color:#fff;font-size:1.2rem}
+
+.catedra{background:#fff;padding:40px 0 60px}
+.catedra details{border:2px solid var(--ink);border-radius:16px;padding:4px 20px}
+.catedra ul{padding-left:20px;margin:0 0 16px}
+.catedra li{margin-bottom:8px}
+
+
+/* estilo oscuro del hero (inspirado en la tienda actual) */
+.hero{background:radial-gradient(60% 50% at 85% 10%,rgba(255,79,154,.35),transparent 70%),radial-gradient(50% 50% at 0% 100%,rgba(255,154,61,.28),transparent 70%),#14102a;color:#fff}
+.hero .lead{color:#e6e1fa}
+.hero .datos{color:#cfc8ee}
+.hero .btn.claro{background:transparent;color:#fff;border-color:#fff}
+.hero .btn.azul{background:linear-gradient(90deg,var(--pink),var(--orange));border:0;color:#14102a}
+.hero .config{color:var(--ink)}
+.grad{background:linear-gradient(90deg,var(--pink),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{display:inline-block;border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:6px 14px;font-size:.85rem;margin-bottom:18px;color:var(--yellow)}
+.listas{display:grid;gap:18px;margin-top:40px}
+@media(min-width:760px){.listas{grid-template-columns:1fr 1fr}}
+.lista{border:2px solid var(--ink);border-radius:22px;padding:24px;background:#fff}
+.lista h3{margin-bottom:8px}
+.lista ul{padding-left:20px;margin:10px 0 0;color:var(--muted)}
+.lista.facil{box-shadow:6px 6px 0 var(--yellow)}
+.lista.complica{box-shadow:6px 6px 0 var(--pink)}
+.extras{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;padding:0;list-style:none}
+.extras li{background:var(--paper);border:2px dashed var(--blue);border-radius:999px;padding:8px 16px;font-weight:600;font-size:.95rem}
+.cuidados{background:var(--paper);border-block:2px solid var(--ink)}
+.cgrid{display:grid;gap:14px;margin-top:24px}
+@media(min-width:700px){.cgrid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.cgrid{grid-template-columns:repeat(4,1fr)}}
+.cgrid div{background:#fff;border-radius:18px;border:2px solid var(--ink);padding:18px}
+.cgrid strong{display:block;font-family:var(--slab);margin-bottom:4px}
+.cgrid .no{border-color:var(--pink)}
+.wa{position:fixed;right:16px;bottom:16px;z-index:30;background:#25d366;color:#08331a;font-weight:800;text-decoration:none;border-radius:999px;padding:13px 20px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}#jacket path,#jacket rect{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="aviso">Propuesta de sitio web. Trabajo académico de Marketing Digital (UAI). No es el sitio oficial de Cante Pido.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="marca" href="#inicio">Cante Pido<small>Egresados</small></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav">Menú</button>
+    <nav class="principal" id="nav" aria-label="Principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#camperas">Camperas</a>
+      <a href="#como">Cómo trabajamos</a>
+      <a href="#seguimiento">Seguimiento de pedido</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#preguntas">Preguntas</a>
+      <a class="cta" href="#presupuesto">Pedí presupuesto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- INICIO -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <span class="chip">Jardín · Primaria · Secundaria</span>
+      <h1>La campera de tu egreso, <span class="grad">armada con tu curso.</span></h1>
+      <p class="lead">Probá los colores y el nombre de tu colegio, calculá cuánto paga cada familia y seguí tu pedido online. Todo en un mismo lugar.</p>
+      <div class="acciones">
+        <a class="btn azul" href="#presupuesto">Pedí presupuesto para tu curso</a>
+        <a class="btn claro" href="#como">Mirá cómo trabajamos</a>
+      </div>
+      <ul class="datos">
+        <li>20 años en la industria textil</li>
+        <li>Garantía de un año</li>
+        <li>Envíos a todo el país</li>
+      </ul>
+    </div>
+
+    <div class="config" aria-labelledby="cfgT">
+      <div class="vista">
+        <strong id="cfgT">Armá tu campera</strong>
+        <div class="seg" role="group" aria-label="Vista de la campera">
+          <button type="button" id="vFrente" aria-pressed="false">Frente</button>
+          <button type="button" id="vEspalda" aria-pressed="true">Espalda</button>
+        </div>
+      </div>
+
+      <svg id="jacket" viewBox="0 0 300 290" role="img" aria-label="Campera de egresados con los colores y el texto elegidos">
+        <g stroke="#101528" stroke-width="2.5" stroke-linejoin="round">
+          <path class="mangaL" d="M96 72 L52 84 L26 214 L66 224 L94 128 Z"/>
+          <path class="mangaR" d="M204 72 L248 84 L274 214 L234 224 L206 128 Z"/>
+          <path class="trim" d="M26 214 L66 224 L61 246 L21 236 Z"/>
+          <path class="trim" d="M274 214 L234 224 L239 246 L279 236 Z"/>
+          <path class="cuerpo" d="M96 72 Q122 52 150 60 Q178 52 204 72 L214 250 L86 250 Z"/>
+          <rect class="trim" x="86" y="248" width="128" height="22" rx="5"/>
+          <path class="trim" d="M118 58 Q150 92 182 58 L182 44 Q150 74 118 44 Z"/>
+        </g>
+        <g id="gFrente" hidden>
+          <line x1="150" y1="84" x2="150" y2="248" stroke="#101528" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <text id="fYear" class="tx" x="124" y="112" text-anchor="middle" font-size="14" font-weight="800" font-family="Rockwell,Cambria,Georgia,serif">2027</text>
+          <g transform="translate(176 106)" stroke="#101528" stroke-width="1.5"><circle r="15" fill="#ffd23f"/><polygon points="0,-9 2.6,-3.6 8.6,-2.8 4.2,1.4 5.3,7.3 0,4.5 -5.3,7.3 -4.2,1.4 -8.6,-2.8 -2.6,-3.6" fill="#101528"/></g>
+        </g>
+        <g id="gEspalda">
+          <text id="bSchool" class="tx" x="150" y="122" text-anchor="middle" font-size="17" font-weight="800" font-family="Rockwell,Cambria,Georgia,serif" lengthAdjust="spacingAndGlyphs">Tu colegio</text>
+          <text id="bYear" class="tx" x="150" y="182" text-anchor="middle" font-size="42" font-weight="800" font-family="Rockwell,Cambria,Georgia,serif">2027</text>
+          <text class="tx" x="150" y="206" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="3" font-family="system-ui,Arial,sans-serif">EGRESADOS</text>
+        </g>
+      </svg>
+
+      <div class="campos">
+        <div>
+          <label id="lblColor">Colores</label>
+          <div class="swatches" id="swatches" role="group" aria-labelledby="lblColor"></div>
+        </div>
+        <div class="dos">
+          <div>
+            <label for="cName">Nombre del colegio</label>
+            <input id="cName" maxlength="22" placeholder="Tu colegio" autocomplete="off">
+          </div>
+          <div>
+            <label for="cYear">Año</label>
+            <input id="cYear" type="number" min="2026" max="2040" value="2027" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+      <p class="nota">Vista de ejemplo. El diseño final lo definen con tu curso: les mostramos tres bocetos y votan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPERAS -->
+<section class="bloque" id="camperas">
+  <div class="wrap">
+    <h2>Elegí el nivel de tu grupo</h2>
+    <p class="intro">Cada curso tiene su propio diseño, sus colores y su espíritu. Contanos de qué nivel es y armamos la propuesta.</p>
+    <div class="niveles">
+      <article class="parche jardin">
+        <h3>Jardín de Infantes</h3>
+        <p>La primera gran fiesta merece una campera suave, cómoda y con colores que brillen tanto como ellos.</p>
+        <button class="btn" type="button" data-nivel="Jardín">Consultar por Jardín</button>
+      </article>
+      <article class="parche primaria">
+        <h3>Primaria</h3>
+        <p>El paso que nunca se olvida. Prendas personalizadas para cada curso, con su nombre y sus colores.</p>
+        <button class="btn" type="button" data-nivel="Primaria">Consultar por Primaria</button>
+      </article>
+      <article class="parche secundaria">
+        <h3>Secundaria</h3>
+        <p>La despedida del colegio, con un diseño que van a usar toda la vida y que cuenta la historia de la promo.</p>
+        <button class="btn" type="button" data-nivel="Secundaria">Consultar por Secundaria</button>
+      </article>
+    </div>
+    <div class="listas">
+      <article class="lista facil"><h3>Hacelo fácil</h3><p>Para grupos que quieren decidir rápido.</p><ul><li>Elegís el modelo al firmar el acuerdo.</li><li>Moldería y bordados ya definidos.</li><li>Solo combinan los colores disponibles.</li></ul></article>
+      <article class="lista complica"><h3>Complicala un poco</h3><p>Para grupos que quieren un diseño propio.</p><ul><li>Personalizan colores, bordados y estampas.</li><li>Reciben tres bocetos digitales y votan.</li><li>Muestras físicas de tela al firmar.</li></ul></article>
+    </div>
+    <ul class="extras" aria-label="Extras opcionales"><li>Remera incluida (grupos de 15 o más)</li><li>Segunda remera opcional</li><li>Emojis (hasta 3 por prenda)</li><li>Parches cosidos</li><li>Accesorios con prendedor</li></ul>
+    <div class="testi">Espacio para fotos y testimonios reales de cursos que ya egresaron con Cante Pido (con autorización de las familias).</div>
+  </div>
+</section>
+
+<!-- COMO TRABAJAMOS -->
+<section class="bloque" id="como" style="padding-top:0">
+  <div class="wrap dosCol">
+    <div>
+      <h2>Cómo trabajamos, paso a paso</h2>
+      <p class="intro">Todo el proceso queda claro desde la primera reunión, sin letra chica.</p>
+      <ol class="pasos">
+        <li><div><strong>Primera reunión</strong><span>Por Zoom, en nuestra fábrica o en la puerta del colegio, según la zona.</span></div></li>
+        <li><div><strong>Seña y representantes</strong><span>Reservan su lugar en la producción y eligen hasta cinco representantes del curso.</span></div></li>
+        <li><div><strong>Firma del acuerdo</strong><span>Quedan definidos el modelo, las cuotas y la fecha de entrega.</span></div></li>
+        <li><div><strong>Tres bocetos y votación</strong><span>Les mostramos tres propuestas de diseño y el curso vota la que más le gusta.</span></div></li>
+        <li><div><strong>Talles</strong><span>Cada familia carga los datos en un formulario online, o prueban las prendas en nuestro showroom de Ituzaingó.</span></div></li>
+        <li><div><strong>Producción y entrega</strong><span>Seguís el avance online y retirás en fábrica o recibís por Correo Argentino.</span></div></li>
+      </ol>
+    </div>
+
+    <form class="sim" id="sim" aria-labelledby="simT" onsubmit="return false">
+      <h3 id="simT">Calculá cuánto paga cada familia</h3>
+      <p class="nota" style="margin:0">Estimación simplificada con los recargos informados en las condiciones. El valor real figura en tu acuerdo.</p>
+      <div class="grid2">
+        <div>
+          <label for="sPrecio">Valor por alumno (de tu lista)</label>
+          <input id="sPrecio" type="number" min="0" step="1000" value="100000" inputmode="numeric">
+        </div>
+        <div>
+          <label for="sCuotas">Cantidad de cuotas</label>
+          <select id="sCuotas"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select>
+        </div>
+        <div style="grid-column:1/-1">
+          <label for="sForma">Cómo se paga</label>
+          <select id="sForma">
+            <option value="0">En efectivo (sin recargo)</option>
+            <option value="10" selected>Una persona junta y hace una sola transferencia (+10%)</option>
+            <option value="20">Cada familia transfiere por su cuenta (+20%)</option>
+          </select>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="sOro"> Plan Oro (bonifica el recargo por transferencia)</label>
+      <div class="resultado" aria-live="polite">
+        <p>Total por alumno</p>
+        <div class="big" id="rTotal">$0</div>
+        <p id="rCuota"></p>
+        <p id="rRecargo"></p>
+      </div>
+      <p class="nota">El valor de 100.000 es solo un ejemplo para probar la calculadora.</p>
+    </form>
+  </div>
+</section>
+
+<!-- SEGUIMIENTO -->
+<section class="bloque seguir" id="seguimiento">
+  <div class="wrap dosCol">
+    <div>
+      <h2>Seguí tu pedido sin escribir por WhatsApp</h2>
+      <p class="intro">Con el código de tu pedido ves en qué etapa está y cuándo se entrega. Los representantes del curso se enteran de cada cambio.</p>
+      <div class="cod">
+        <div>
+          <label for="oCod">Código de pedido (demostración)</label>
+          <input id="oCod" value="CP-DEMO-0001" readonly>
+        </div>
+        <button type="button" class="btn azul" id="oAvanza">Simular avance</button>
+      </div>
+    </div>
+    <div>
+      <ol class="estado" id="estado" aria-live="polite">
+        <li>Seña recibida</li>
+        <li>Acuerdo firmado</li>
+        <li>Diseño votado por el curso</li>
+        <li>Talles cargados</li>
+        <li>En producción</li>
+        <li>Listo para entrega</li>
+      </ol>
+      <p class="nota" id="oNota"></p>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="bloque" id="nosotros">
+  <div class="wrap dosCol">
+    <div>
+      <h2>Veinte años vistiendo historias</h2>
+      <p class="intro" style="margin-bottom:0">Somos una empresa textil argentina especializada en indumentaria para egresados de Jardín, Primaria y Secundaria. Trabajamos codo a codo con cada grupo para que la prenda los represente de verdad.</p>
+    </div>
+    <ul class="valores">
+      <li><strong>Cercanía</strong>Te acompaña un equipo comercial en todo el proceso, de la primera reunión a la entrega.</li>
+      <li><strong>Transparencia</strong>Pagos, plazos y condiciones claros antes de firmar, y el estado del pedido siempre a la vista.</li>
+      <li><strong>Calidad</strong>Telas de algodón elegidas con muestras físicas y garantía de un año por fallas de confección.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="abuelos" aria-labelledby="abT">
+  <div class="wrap">
+    <div>
+      <h2 id="abT">¿Sos abuelo o abuela y querés regalar la campera?</h2>
+      <p>Escribinos y coordinamos todo con la familia del egresado, sin formularios complicados.</p>
+    </div>
+    <a class="btn" href="#presupuesto">Quiero regalarla</a>
+  </div>
+</section>
+
+<!-- CUIDADOS -->
+<section class="bloque cuidados" id="cuidados">
+  <div class="wrap">
+    <h2>Cuidados para que dure para siempre</h2>
+    <p class="intro" style="margin-bottom:0">Es frisa de algodón: puede encoger cerca de un 5% en los primeros lavados, por eso recomendamos elegir un talle más.</p>
+    <div class="cgrid">
+      <div><strong>Lavar</strong>Seguí las indicaciones que se entregan con la prenda.</div>
+      <div class="no"><strong>No hacer</strong>Remojo, lavado a mano, blanqueador o secadora.</div>
+      <div class="no"><strong>No sacar</strong>La friselina interna.</div>
+      <div><strong>Garantía</strong>Un año por fallas de confección o de materiales.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREGUNTAS -->
+<section class="bloque" id="preguntas">
+  <div class="wrap">
+    <h2>Preguntas frecuentes</h2>
+    <p class="intro">Lo que más nos preguntan los cursos antes de empezar.</p>
+    <details><summary>¿Cómo es la primera reunión?</summary><div class="resp">Puede ser por Zoom, en nuestra fábrica o, si el colegio está dentro de nuestra zona de cobertura, en la puerta del colegio. Te asesoramos y te mostramos las propuestas.</div></details>
+    <details><summary>¿La seña se devuelve?</summary><div class="resp">No. La seña forma parte del precio y reserva su lugar en nuestro cronograma de producción. Por eso recomendamos evaluar bien la propuesta antes de pagarla. No hace falta tener el diseño definido para señar.</div></details>
+    <details><summary>¿Cómo se paga?</summary><div class="resp">En efectivo o por transferencia bancaria, con financiación de hasta 5 cuotas. Cada familia elige en cuántas cuotas paga. Si una sola persona junta el dinero y transfiere, hay un adicional del 10%; si cada familia transfiere, del 20%. El Plan Oro bonifica ese recargo.</div></details>
+    <details><summary>¿Qué pasa si alguien se atrasa con una cuota?</summary><div class="resp">Las cuotas vencen los días 10 y 20 de cada mes. Un atraso genera un interés mensual del 35% sobre la cuota adeudada y puede demorar la entrega de todo el grupo.</div></details>
+    <details><summary>¿Cómo se toman los talles?</summary><div class="resp">Hay tres modalidades: la Experiencia Cante Pido en nuestro showroom de Ituzaingó, una tabla de talles con video interactivo y muestras para probar. Cada familia carga los datos en un formulario online.</div></details>
+    <details><summary>¿Tienen garantía?</summary><div class="resp">Sí, de un año por fallas de confección y de funcionamiento de los materiales, siempre que se sigan las instrucciones de cuidado.</div></details>
+    <details><summary>¿Cómo se entregan las prendas?</summary><div class="resp">Podés retirarlas por la fábrica o recibirlas por Correo Argentino. El envío se paga por separado y la fecha de entrega queda escrita en el acuerdo.</div></details>
+  </div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="bloque pres" id="presupuesto">
+  <div class="wrap">
+    <h2>Pedí el presupuesto para tu curso</h2>
+    <p class="intro">Contanos cómo es tu grupo y te armamos la propuesta. Son menos de dos minutos.</p>
+    <form class="f" id="form">
+      <div><label for="fNombre">Tu nombre</label><input id="fNombre" required autocomplete="name"></div>
+      <div><label for="fTel">Teléfono (WhatsApp)</label><input id="fTel" type="tel" required autocomplete="tel"></div>
+      <div><label for="fCole">Colegio</label><input id="fCole" required></div>
+      <div><label for="fNivel">Nivel</label>
+        <select id="fNivel" required><option value="">Elegí un nivel</option><option>Jardín</option><option>Primaria</option><option>Secundaria</option></select>
+      </div>
+      <div><label for="fCant">Cantidad de alumnos</label><input id="fCant" type="number" min="1" inputmode="numeric" required></div>
+      <div class="full"><label for="fMsg">Algo más que quieras contarnos (opcional)</label><textarea id="fMsg"></textarea></div>
+      <div class="full"><button class="btn" type="submit">Pedir presupuesto</button></div>
+      <div class="full ok" id="fOk" hidden>Pedido enviado (demostración). En el sitio real, el equipo comercial responde por WhatsApp.</div>
+    </form>
+  </div>
+</section>
+
+<!-- NOTA CATEDRA -->
+<section class="catedra">
+  <div class="wrap">
+    <details>
+      <summary>Nota para la cátedra: decisiones de diseño de esta propuesta</summary>
+      <div class="resp">
+        <ul>
+          <li><strong>Objetivos definidos:</strong> un objetivo principal (pedir presupuesto) repetido en el menú, el inicio y el cierre, y uno secundario (seguimiento del pedido).</li>
+          <li><strong>Intuitivo:</strong> menú de siete ítems y un solo botón destacado.</li>
+          <li><strong>Copywriting y contenido:</strong> frases directas, preguntas frecuentes con las condiciones reales y espacio para prueba social.</li>
+          <li><strong>Velocidad:</strong> una sola página sin imágenes pesadas, sin videos ni tipografías externas.</li>
+          <li><strong>Estructura concisa:</strong> secciones en el orden en que decide una familia.</li>
+          <li><strong>Coherencia:</strong> una paleta y una forma de "parche cosido" repetidas en toda la página.</li>
+          <li><strong>Responsivo:</strong> diseñada primero para celular.</li>
+          <li><strong>Mejoras frente al sitio actual:</strong> calculadora de pagos, seguimiento de pedido, configurador, sección para abuelos y cuidados visibles.</li>
+          <li><strong>Estrategia digital:</strong> participación y personalización (Marketing 5.0), calculadora de pagos (costo percibido), seguimiento del pedido (experiencia de usuario) y sección para abuelos.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Cante Pido Egresados</strong>
+    <span>Showroom y fábrica en Ituzaingó. Envíos a todo el país por Correo Argentino.</span>
+    <span>WhatsApp +54 9 11 5165-7472 · @cantepidoegresados · info@cantepido.com.ar</span>
+    <span>Propuesta académica de rediseño. Los datos de contacto reales los define la empresa.</span>
+  </div>
+</footer>
+<a class="wa" href="https://wa.me/5491151657472" aria-label="Consultar por WhatsApp">WhatsApp</a>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* menu movil */
+  var mb=$('#menuBtn'), nav=$('#nav');
+  mb.addEventListener('click',function(){
+    var open=nav.getAttribute('data-open')==='true';
+    nav.setAttribute('data-open',String(!open));
+    mb.setAttribute('aria-expanded',String(!open));
+  });
+  $$('#nav a').forEach(function(a){a.addEventListener('click',function(){nav.setAttribute('data-open','false');mb.setAttribute('aria-expanded','false');});});
+
+  /* configurador */
+  var paletas=[
+    {n:'Bordó y crema',b:'#7b1e3a',m:'#f1e7d3',t:'#f1e7d3'},
+    {n:'Azul y amarillo',b:'#1f3a93',m:'#ffd23f',t:'#ffd23f'},
+    {n:'Verde y blanco',b:'#1f6b4a',m:'#ffffff',t:'#ffffff'},
+    {n:'Negro y rosa',b:'#1b1b1f',m:'#ff6fa8',t:'#ff6fa8'},
+    {n:'Violeta y turquesa',b:'#5b2a86',m:'#3cc9c0',t:'#3cc9c0'}
+  ];
+  var sw=$('#swatches'), svg=$('#jacket');
+  function lum(h){var n=parseInt(h.slice(1),16);return (0.299*((n>>16)&255)+0.587*((n>>8)&255)+0.114*(n&255))/255}
+  function pinta(i){
+    var p=paletas[i];
+    $$('.cuerpo',svg).forEach(function(e){e.setAttribute('fill',p.b)});
+    $$('.mangaL,.mangaR',svg).forEach(function(e){e.setAttribute('fill',p.m)});
+    $$('.trim',svg).forEach(function(e){e.setAttribute('fill',p.t)});
+    var col=lum(p.b)>0.6?'#101528':'#ffffff';
+    $$('.tx',svg).forEach(function(e){e.setAttribute('fill',col)});
+    $$('#swatches .sw').forEach(function(b,j){b.setAttribute('aria-pressed',String(j===i))});
+  }
+  paletas.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.type='button';b.className='sw';b.setAttribute('aria-label',p.n);b.title=p.n;
+    b.innerHTML='<span style="background:'+p.b+'"></span><span style="background:'+p.m+'"></span>';
+    b.addEventListener('click',function(){pinta(i)});
+    sw.appendChild(b);
+  });
+  pinta(1);
+
+  var cName=$('#cName'), cYear=$('#cYear'), bS=$('#bSchool');
+  function texto(){
+    var n=(cName.value||'').trim()||'Tu colegio';
+    bS.textContent=n;
+    bS.setAttribute('textLength',Math.min(112,Math.max(40,n.length*9.5)));
+    var y=cYear.value||'2027';
+    $('#bYear').textContent=y; $('#fYear').textContent=y;
+  }
+  cName.addEventListener('input',texto); cYear.addEventListener('input',texto); texto();
+
+  function vista(front){
+    $('#gFrente').hidden=!front; $('#gEspalda').hidden=front;
+    $('#vFrente').setAttribute('aria-pressed',String(front));
+    $('#vEspalda').setAttribute('aria-pressed',String(!front));
+  }
+  $('#vFrente').addEventListener('click',function(){vista(true)});
+  $('#vEspalda').addEventListener('click',function(){vista(false)});
+
+  /* niveles -> formulario */
+  $$('[data-nivel]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var n=b.getAttribute('data-nivel'); if(n){$('#fNivel').value=n;}
+      location.hash='#presupuesto';
+    });
+  });
+
+  /* simulador */
+  var money=new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+  function calcula(){
+    var precio=Math.max(0,parseFloat($('#sPrecio').value)||0);
+    var cuotas=parseInt($('#sCuotas').value,10)||1;
+    var rec=$('#sOro').checked?0:parseFloat($('#sForma').value);
+    var extra=precio*rec/100, total=precio+extra;
+    $('#rTotal').textContent=money.format(total);
+    $('#rCuota').textContent=cuotas===1?'Un solo pago de '+money.format(total):cuotas+' cuotas de '+money.format(total/cuotas);
+    $('#rRecargo').textContent=rec? 'Incluye un recargo de '+money.format(extra)+' ('+rec+'%).' : 'Sin recargo.';
+  }
+  ['#sPrecio','#sCuotas','#sForma','#sOro'].forEach(function(s){$(s).addEventListener('input',calcula);$(s).addEventListener('change',calcula)});
+  calcula();
+
+  /* seguimiento */
+  var items=$$('#estado li'), paso=3;
+  var notas=['Pedido recibido. Te avisamos cuando se firme el acuerdo.','Acuerdo firmado. Ya pueden empezar a elegir el diseño.','El curso ya votó el diseño. Falta cargar los talles.','Talles cargados. La producción empieza pronto.','Tu pedido está en producción. La fecha de entrega es la que figura en tu acuerdo.','Listo para entrega. Elegí retiro en fábrica o envío por Correo Argentino.'];
+  function estado(){
+    items.forEach(function(li,i){
+      li.className=i<paso?'hecho':(i===paso?'actual':'');
+    });
+    $('#oNota').textContent=notas[paso];
+    $('#oAvanza').textContent=paso===items.length-1?'Volver al inicio':'Simular avance';
+  }
+  $('#oAvanza').addEventListener('click',function(){paso=(paso+1)%items.length;estado();});
+  estado();
+
+  /* formulario */
+  $('#form').addEventListener('submit',function(e){
+    e.preventDefault();
+    $('#fOk').hidden=false;
+    $('#fOk').scrollIntoView({block:'nearest'});
+  });
+})();
+</script>
+</body>
+</html>
